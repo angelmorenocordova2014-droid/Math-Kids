@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Math Kids - Aprende jugando</title>
+<style>
+:root{--bg:#f4f7ff;--card:#fff;--ink:#24324a;--title:#315da8;--tile:#eaf0ff;--soft:#eef2ff;--neutral:#edf1f8;--sub:#65738a;--primary:#5288ed;--h1:#c9edff;--h2:#ffe0ec;--good:#c9f3dc;--bad:#ffe0e8;--pre:#ffedb5;--kin:#d8f4e5;--a1:#e8efff;--a2:#ffe5ee;--a3:#e0f6ed;--a4:#fff0ce;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#161c2e;--card:#222b44;--ink:#eef2ff;--title:#9db8ff;--tile:#2f3b5e;--soft:#2f3b5e;--neutral:#34416a;--sub:#aab4cf;--primary:#4a78d8;--h1:#25406b;--h2:#4b2a45;--good:#1f6b4a;--bad:#7a2c43;--pre:#6b5a1f;--kin:#1f5a43;--a1:#2f3b5e;--a2:#4b2f48;--a3:#26493f;--a4:#5a4a24}}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,system-ui,sans-serif}
+header{background:linear-gradient(120deg,var(--h1),var(--h2));text-align:center;padding:22px 12px}
+h1{font-size:clamp(32px,8vw,48px);margin:0;color:var(--title)}header p{margin:8px 0 0}
+main{max-width:760px;margin:18px auto;padding:0 14px 35px}.card{background:var(--card);border-radius:24px;padding:22px;box-shadow:0 7px 22px #263a5b22;margin-bottom:15px}
+h2{text-align:center;margin:4px 0 18px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+button{border:0;border-radius:18px;padding:17px 12px;font-size:18px;font-weight:700;cursor:pointer;touch-action:manipulation;color:var(--ink)}
+button:focus-visible{outline:4px solid var(--primary);outline-offset:3px}
+.level{min-height:115px}.pre{background:var(--pre)}.kin{background:var(--kin)}
+.subtext{display:block;font-size:13px;font-weight:500;margin-top:7px}
+.activities button{min-height:90px;background:var(--a1)}.activities button:nth-child(2){background:var(--a2)}.activities button:nth-child(3){background:var(--a3)}.activities button:nth-child(4){background:var(--a4)}
+.hidden{display:none!important}.bar{display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap}
+.badge{background:var(--soft);border-radius:30px;padding:9px 12px;font-weight:bold;font-size:14px}
+.question{text-align:center;padding:18px 0}.prompt{font-size:clamp(22px,5vw,30px);font-weight:800}
+.visual{font-size:clamp(34px,9vw,56px);min-height:100px;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:6px;margin:12px 0}
+.visual.many{font-size:clamp(28px,7vw,42px)}
+.grp{display:flex;flex-wrap:wrap;justify-content:center;gap:4px;max-width:100%}
+.sign{font-size:.8em;font-weight:800;color:var(--title)}
+.gone{position:relative;opacity:.3;filter:grayscale(1)}
+.gone::after{content:"✖";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#e0334f;font-size:.9em;filter:none}
+.answers button{background:var(--tile);min-height:68px;font-size:24px}.answers{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.answers button.good{background:var(--good)}.answers button.bad{background:var(--bad)}
+.feedback{text-align:center;min-height:36px;font-size:20px;font-weight:bold;margin:12px 0}
+.primary{background:var(--primary);color:#fff}.neutral{background:var(--neutral);color:var(--ink)}
+.center{text-align:center}.tiny{font-size:14px;color:var(--sub)}
+@media(max-width:420px){.grid{grid-template-columns:1fr}.level{min-height:82px}.card{padding:17px}.answers button{font-size:21px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header><h1>🌈 MATH KIDS</h1><p>¡Aprende matemáticas jugando!</p></header>
+<main>
+<section id="screen-level" class="card">
+<h2>Elige tu nivel</h2>
+<div class="grid">
+<button class="level pre" onclick="selectLevel('pre')">🐣 PREKÍNDER<span class="subtext">Contar, números y figuras</span></button>
+<button class="level kin" onclick="selectLevel('kin')">🦋 KÍNDER<span class="subtext">Contar, sumar, restar y figuras</span></button>
+</div>
+<p class="tiny center">Toca un nivel para comenzar.</p>
+</section>
+<section id="screen-menu" class="card hidden">
+<div class="bar"><span class="badge" id="chosen-level"></span><span class="badge">⭐ <span id="total-stars">0</span></span></div>
+<h2>¿Qué quieres practicar?</h2>
+<div class="grid activities">
+<button onclick="begin('count')">🔢 Contar<span class="subtext">Cuenta los objetos</span></button>
+<button onclick="begin('add')">➕ Sumas<span class="subtext">Junta los objetos</span></button>
+<button onclick="begin('subtract')">➖ Restas<span class="subtext">Quita objetos y cuenta</span></button>
+<button onclick="begin('shape')">🔺 Figuras<span class="subtext">Reconoce las formas</span></button>
+</div>
+<p class="center"><button class="neutral" onclick="showScreen('screen-level')">Cambiar nivel</button></p>
+</section>
+<section id="screen-game" class="card hidden">
+<div class="bar"><button class="neutral" onclick="showScreen('screen-menu')">← Actividades</button><span class="badge">Pregunta <span id="question-no">1</span>/5</span><span class="badge">⭐ <span id="round-score">0</span></span></div>
+<div class="question"><div class="prompt" id="prompt"></div><div class="visual" id="visual"></div><div class="grid answers" id="answers"></div><div class="feedback" id="feedback" aria-live="polite"></div><button id="next-button" class="primary hidden" onclick="nextQuestion()">Siguiente ➜</button></div>
+</section>
+<section id="screen-result" class="card hidden">
+<h2>🎉 ¡Terminaste!</h2><p class="center" id="result-text" style="font-size:22px"></p>
+<div class="grid"><button class="primary" onclick="begin(currentActivity)">Jugar otra vez</button><button class="neutral" onclick="showScreen('screen-menu')">Otras actividades</button></div>
+</section>
+</main>
+<script>
+'use strict';
+let level='pre', currentActivity='count', q=1, points=0, stars=0, answerNow=null, locked=false;
+const el=id=>document.getElementById(id);
+const OBJECTS=[
+ {e:'🍎',p:'manzanas',g:'f'},{e:'🍌',p:'plátanos',g:'m'},{e:'🍓',p:'fresas',g:'f'},
+ {e:'🎈',p:'globos',g:'m'},{e:'⚽',p:'pelotas',g:'f'},{e:'🚗',p:'carros',g:'m'},
+ {e:'🧸',p:'ositos',g:'m'},{e:'🐟',p:'peces',g:'m'},{e:'🌸',p:'flores',g:'f'},
+ {e:'🍪',p:'galletas',g:'f'},{e:'🦆',p:'patitos',g:'m'},{e:'🍩',p:'donas',g:'f'}
+];
+function pickObject(){return OBJECTS[Math.floor(Math.random()*OBJECTS.length)];}
+function cuantos(o){return o.g==='f'?'Cuántas':'Cuántos';}
+function items(emoji,n,cls){return Array.from({length:n},()=>`<span class="${cls||''}">${emoji}</span>`).join('');}
+function showScreen(id){['screen-level','screen-menu','screen-game','screen-result'].forEach(s=>el(s).classList.toggle('hidden',s!==id));}
+function selectLevel(value){
+ level=value;
+ el('chosen-level').textContent=value==='pre'?'🐣 PREKÍNDER':'🦋 KÍNDER';
+ el('total-stars').textContent=stars;
+ showScreen('screen-menu');
+}
+function randomInt(min,max){return Math.floor(Math.random()*(max-min+1))+min;}
+function shuffled(list){return list.map(v=>[Math.random(),v]).sort((a,b)=>a[0]-b[0]).map(x=>x[1]);}
+function makeOptions(correct,min,max){
+ const pool=[];
+ for(let n=min;n<=max;n++){if(n!==correct)pool.push(n);}
+ const distractors=shuffled(pool).slice(0,3);
+ return shuffled([correct,...distractors]);
+}
+function begin(activity){currentActivity=activity;q=1;points=0;showScreen('screen-game');makeQuestion();}
+function makeQuestion(){
+ locked=false;el('question-no').textContent=q;el('round-score').textContent=points;
+ el('feedback').textContent='';el('next-button').classList.add('hidden');el('answers').innerHTML='';
+ el('visual').classList.remove('many');
+ let prompt='',visual='',correct,choices;
+ const o=pickObject();
+ if(currentActivity==='count'){
+   const max=level==='pre'?5:10;correct=randomInt(1,max);
+   prompt=`¿${cuantos(o)} ${o.p} hay?`;visual=`<div class="grp">${items(o.e,correct)}</div>`;
+   choices=makeOptions(correct,1,max);
+ }else if(currentActivity==='add'){
+   const cap=level==='pre'?3:10;const a=randomInt(1,cap),b=randomInt(1,cap);
+   correct=a+b;prompt=`¿${cuantos(o)} ${o.p} hay en total?`;
+   visual=`<div class="grp">${items(o.e,a)}</div><span class="sign">+</span><div class="grp">${items(o.e,b)}</div>`;
+   if(a+b>10)el('visual').classList.add('many');
+   choices=makeOptions(correct,Math.max(0,correct-3),correct+3);
+ }else if(currentActivity==='subtract'){
+   const a=randomInt(2,level==='pre'?5:10),b=randomInt(1,a-1);
+   correct=a-b;prompt=`Hay ${a} ${o.p} y se quitan ${b}. ¿${cuantos(o)} quedan?`;
+   visual=`<div class="grp">${items(o.e,a-b)}${items(o.e,b,'gone')}</div>`;
+   choices=makeOptions(correct,0,level==='pre'?5:10);
+ }else{
+   const shapes=[['círculo','🔴'],['cuadrado','🟦'],['triángulo','🔺'],['rectángulo','🟩']];
+   const shape=shapes[randomInt(0,3)];correct=shape[0];prompt='¿Cómo se llama esta figura?';visual=shape[1];
+   choices=shuffled(shapes.map(s=>s[0]));
+ }
+ answerNow=String(correct);el('prompt').textContent=prompt;el('visual').innerHTML=visual;
+ choices.forEach(choice=>{
+   const b=document.createElement('button');b.textContent=choice;
+   b.addEventListener('click',()=>answer(choice,b));el('answers').appendChild(b);
+ });
+}
+function answer(choice,button){
+ if(locked)return;locked=true;
+ if(String(choice)===answerNow){points++;stars++;el('feedback').textContent='¡Excelente! ⭐';button.classList.add('good');}
+ else{el('feedback').textContent='¡Buen intento! La respuesta es '+answerNow+'.';button.classList.add('bad');}
+ el('round-score').textContent=points;el('total-stars').textContent=stars;
+ [...el('answers').children].forEach(b=>b.disabled=true);
+ el('next-button').textContent=q===5?'Ver resultado':'Siguiente ➜';el('next-button').classList.remove('hidden');
+}
+function nextQuestion(){
+ if(q<5){q++;makeQuestion();}
+ else{el('result-text').textContent=`Lograste ${points} de 5 respuestas correctas. ¡Ganaste ${points} estrellas!`;showScreen('screen-result');}
+}
+</script>
+</body>
+</html>
